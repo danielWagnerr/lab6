@@ -20,6 +20,9 @@ query = """
           totalCount
         }
         url
+         releases {
+          totalCount
+        }
       }
     }
   }

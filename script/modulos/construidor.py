@@ -10,7 +10,8 @@ def constroi_dicionario_node(node: dict) -> dict:
         'watchers': node['watchers']['totalCount'],
         'data_criacao': node['createdAt'],
         'forks': node['forks']['totalCount'],
-        'url': node['url']
+        'url': node['url'],
+        'releases': node['releases']['totalCount'],
     }
 
 
