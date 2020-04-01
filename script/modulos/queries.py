@@ -2,29 +2,37 @@
 
 query = """
 {
-  user(login: "gvanrossum") {
-    repositories(first: 50,isFork:false) {
-      nodes {
-        name
-        primaryLanguage {
-          name
+    search(query:"stars:>100 language:Python", type:REPOSITORY, first:10{after}){
+        nodes{
+          ... on Repository
+          {
+            nameWithOwner
+            url
+            primaryLanguage
+            {
+              name
+            }
+            stargazers
+            {
+              totalCount
+            }
+            watchers
+            {
+              totalCount
+            }
+            forkCount
+            releases
+            {
+              totalCount
+            }
+            createdAt
+          }
         }
-        stargazers {
-          totalCount
-        }
-        watchers {
-          totalCount
-        }
-        createdAt
-        forks {
-          totalCount
-        }
-        url
-         releases {
-          totalCount
+        pageInfo
+        {
+          hasNextPage
+          endCursor
         }
       }
-    }
   }
-} 
 """
