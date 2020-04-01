@@ -7,3 +7,5 @@ cabecalho_api_github = {
 }
 
 colunas_node = ['nome', 'linguagem', 'stargazes', 'watchers', 'data_criacao', 'forks', 'url', 'releases']
+
+colunas_repo_loc = ['nome', 'loc']

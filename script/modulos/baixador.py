@@ -5,7 +5,7 @@ from logging import info
 
 
 def baixa_repositorios():
-    with open('./resultados/resultado1.csv') as dados_repositorios:
+    with open('./resultados/dados_repositorios.csv') as dados_repositorios:
         reader = DictReader(dados_repositorios)
 
         for repo in reader:
