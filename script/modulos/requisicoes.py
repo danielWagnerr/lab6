@@ -2,7 +2,7 @@ from modulos.queries import query
 from configuracao import cabecalho_api_github
 from requests import post, HTTPError
 from json import dumps
-from logging import error
+from logging import info
 
 
 def _executa_query(json: dict) -> dict:
@@ -17,7 +17,7 @@ def _executa_query(json: dict) -> dict:
         return resposta.json()
 
     except HTTPError as e:
-        error(e)
+        info(e)
 
 
 def obtem_repositorios() -> list:
@@ -41,10 +41,10 @@ def obtem_repositorios() -> list:
 
     while proxima_pagina and qtd_paginas < 100:
         qtd_paginas += 1
+        info(f"Obtendo página {qtd_paginas}")
 
         cursor = resposta["data"]["search"]["pageInfo"]["endCursor"]
         proxima_query = query.replace("{after}", ", after: \"%s\"" % cursor)
-
 
         json['query'] = proxima_query
         resposta = _executa_query(dumps(json))
