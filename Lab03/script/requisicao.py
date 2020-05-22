@@ -1,5 +1,5 @@
 from script.api_key_github import api_key
-from script.query import query
+from script.queries import query_repositorios, query_issues
 import requests
 import csv
 
@@ -7,20 +7,27 @@ headers = {'Authorization': f'Bearer {api_key}'}
 
 
 def obtem_repositorios():
-    request = requests.post('https://api.github.com/graphql',
-                            json={'query': query},
+    resposta = requests.post('https://api.github.com/graphql',
+                            json={'query': query_repositorios},
                             headers=headers)
 
-    if request.status_code == 200:
-        return request.json()
+    repositorios = resposta.json()["data"]["search"]["nodes"]
+
+    return repositorios
 
 
-def grava_repositorios():
-    arquivo_repositorios_csv = open("repositorios.csv", 'w')
-    dados = obtem_repositorios()['data']['search']['nodes']
+def obtem_issues(repositorio):
+    owner_repo = repositorio['nameWithOwner'].split('/')
+    owner_name = owner_repo[0]
+    repo_name = owner_repo[1]
 
-    output = csv.writer(arquivo_repositorios_csv)
-    output.writerow(dados[0].keys())
+    final_query = query_issues.replace("{owner_name}", owner_name)
+    final_query = final_query.replace("{repo_name}", repo_name)
 
-    for row in dados:
-        output.writerow(row.values())
+    resposta = requests.post('https://api.github.com/graphql',
+                             json={'query': final_query},
+                             headers=headers)
+
+    issues = resposta.json()["data"]["repository"]["issues"]["nodes"]
+
+    return repo_name, issues
