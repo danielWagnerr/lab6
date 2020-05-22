@@ -5,3 +5,4 @@ __pycache__/
 venv/
 token_daniel.py
 repositorios/
+api_key_github.py
